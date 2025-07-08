@@ -1,5 +1,7 @@
 package com.test.laptopshop.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.test.laptopshop.domain.Product;
@@ -17,4 +19,12 @@ public class ProductService {
     public Product getProductDetail(Long id) {
         return this.productRepository.findById(id).get();
     }
+
+    public List<Product> getProduct() {
+        return this.productRepository.findAll();
+    }
+
+    // public Product cretaProduct(Product product) {
+        
+    // }
 }
