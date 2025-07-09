@@ -25,7 +25,7 @@
                             <h1 class="mt-4">Manage User</h1>
                             <div class="row d-inline">
                                 <a href="/admin">Dashboard</a>/
-                                <a href="">Users</a>
+                                <a href="/admin/user">Users</a>
                             </div>
                             </ol>
                             <div class="row">
@@ -46,9 +46,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach items="${usertable}" var="userList">
+                                            <c:forEach items="${usertable}" var="userList" varStatus="loop">
                                                 <tr>
-                                                    <td>${userList.id}</td>
+                                                    <td>${loop.index + 1}</td>
                                                     <td>${userList.email}</td>
                                                     <td>${userList.fullName}</td>
                                                     <td>${userList.role.name}</td>

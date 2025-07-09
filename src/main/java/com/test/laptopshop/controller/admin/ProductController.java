@@ -2,34 +2,36 @@ package com.test.laptopshop.controller.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.test.laptopshop.domain.Product;
 import com.test.laptopshop.service.ProductService;
-import com.test.laptopshop.service.UserService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class ProductController {
 
-    private final UserService userService;
-
     private final ProductService productService;
 
-    public ProductController(ProductService productService, UserService userService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.userService = userService;
     }
 
+    // Show product
     @GetMapping("/admin/product")
     public String getProduct(Model model) {
         model.addAttribute("Product", this.productService.getProduct());
-        model.addAttribute("usertable", this.userService.getUser());
-
         return "/admin/product/show";
     }
 
+    // Create product 
     @GetMapping("/admin/product/create")
     public String showProduct(Model model) {
         model.addAttribute("newProduct", new Product());
@@ -37,7 +39,63 @@ public class ProductController {
     }
 
     @PostMapping("/admin/product/create")
-    public String createProduct(@ModelAttribute Product product, Model model) {
+    public String createProduct(
+            @Valid @ModelAttribute("newProduct") Product newProduct,
+            BindingResult productBindingResult,
+            @RequestParam("fileImage") MultipartFile file,
+            Model model) {
+        if (productBindingResult.hasErrors()) {
+            return "admin/product/create";
+        }
+        if (file != null) {
+            String imgProduct = this.productService.hadleUploadImageFile(file, "product");
+            newProduct.setImage(imgProduct);
+        }
+        this.productService.productCreate(newProduct);
+        return "redirect:/admin/product";
+    }
+
+    // Show detail product
+    @GetMapping("/admin/product/{id}")
+    public String showDetailProduct(Model model, @PathVariable long id) {
+        model.addAttribute("detailProduct", this.productService.getProductDetail(id));
+        return "admin/product/detail";
+    }
+
+    // Update product 
+    @GetMapping("/admin/product/update/{id}")
+    public String showUpdateProduct(Model model, @PathVariable long id) {
+        model.addAttribute("product", this.productService.getProductDetail(id));
+        return "admin/product/update";
+    }
+
+    @PostMapping("/admin/product/update/{id}")
+    public String postMethodName(
+            @Valid @ModelAttribute("product") Product product,
+            BindingResult productBindingResult,
+            @RequestParam("fileImage") MultipartFile file,
+            Model model) {
+        if (productBindingResult.hasErrors()) {
+            return "admin/user/update";
+        }
+        if (file != null && file.getOriginalFilename() != null && !"".equals(file.getOriginalFilename())) {
+            String image = this.productService.hadleUploadImageFile(file, "product");
+            product.setImage(image);
+        }
+        this.productService.productUpdate(product);
+        return "redirect:/admin/product";
+    }
+
+    // Delete Product 
+    @GetMapping("/admin/product/delete/{id}")
+    public String deleteShowProduct(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("product", this.productService.getProductDetail(id));
+        return "admin/product/delete";
+    }
+
+    @PostMapping("/admin/product/delete/{id}")
+    public String deleteProduct(@PathVariable("id") Long id) {
+        this.productService.deleteProduct(id);
         return "redirect:/admin/product";
     }
 

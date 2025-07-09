@@ -22,13 +22,18 @@
                 <div id="layoutSidenav_content">
                     <main>
                         <div class="container-fluid px-4">
-                            <h1 class="mt-4"></h1>
+                            <h1 class="mt-4">Delete</h1>
+                            <div class="row d-inline">
+                                <a href="/admin">Dashboard</a>/
+                                <a href="/admin/user">Users</a>/
+                                <a href="#">Delete</a>
+                            </div>
                             </ol>
                             <div class="row">
                                 <div class="col-md-6 col-12 mx-auto">
-                                    <form:form action="/admin/user/delete/${userId}" method="POST"
-                                        modelAttribute="userId">
-                                        <h3 class="mt-4">Delete User ${userId}</h3>
+                                    <form:form action="/admin/user/delete/${user.id}" method="POST"
+                                        modelAttribute="user">
+                                        <h3 class="mt-4">Delete User ${user.fullName}</h3>
                                         <div class="alert alert-danger d-flex align-items-center" role="alert">
                                             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
                                                 aria-label="Danger:">

@@ -25,7 +25,7 @@
                             <h1 class="mt-4">Manage Product</h1>
                             <div class="row d-inline">
                                 <a href="/admin">Dashboard</a>/
-                                <a href="">Product</a>
+                                <a href="#">Product</a>
                             </div>
                             </ol>
                             <div class="row">
@@ -46,18 +46,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach items="${Product}" var="userList">
+                                            <c:forEach items="${Product}" var="productList" varStatus="loop">
                                                 <tr>
-                                                    <td>${Product.id}</td>
-                                                    <td>${Product.name}</td>
-                                                    <td>${Product.price}</td>
-                                                    <td>${Product.factory}</td>
-                                                    = <td>
-                                                        <a href="/admin/user/${userList.id}"
+                                                    <td>${loop.index + 1}</td>
+                                                    <td>${productList.name}</td>
+                                                    <td>${productList.price}</td>
+                                                    <td>${productList.factory}</td>
+                                                    <td>
+                                                        <a href="/admin/product/${productList.id}"
                                                             class="btn btn-primary">View</a>
-                                                        <a href="/admin/user/update/${userList.id}"
+                                                        <a href="/admin/product/update/${productList.id}"
                                                             class="btn btn-warning">Update</a>
-                                                        <a href="/admin/user/delete/${userList.id}"
+                                                        <a href="/admin/product/delete/${productList.id}"
                                                             class="btn btn-danger">Delete</a>
                                                     </td>
 

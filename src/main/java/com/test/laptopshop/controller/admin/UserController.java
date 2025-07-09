@@ -2,17 +2,19 @@ package com.test.laptopshop.controller.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.test.laptopshop.domain.User;
 import com.test.laptopshop.service.UserService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class UserController {
@@ -29,18 +31,25 @@ public class UserController {
         return "admin/user/show";
     }
 
-    @RequestMapping("/admin/user/create")
+    @GetMapping("/admin/user/create")
     public String userCreate(Model model) {
         model.addAttribute("user", new User());
         return "admin/user/create";
     }
 
-    @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
+    @PostMapping("/admin/user/create")
     public String userCreate(Model model,
-            @ModelAttribute("user") User newUser,
+            @Valid @ModelAttribute("user") User newUser,
+            BindingResult userBindingResult,
             @RequestParam("fileImage") MultipartFile file) {
-        String avatar = this.userService.hadleUploadImageFile(file, "avatar");
-        newUser.setAvatar(avatar);
+
+        if (userBindingResult.hasErrors()) {
+            return "admin/user/create";
+        }
+        if (file != null) {
+            String avatar = this.userService.hadleUploadImageFile(file, "avatar");
+            newUser.setAvatar(avatar);
+        }
         this.userService.userCreate(newUser);
         return "redirect:/admin/user";
     }
@@ -58,8 +67,19 @@ public class UserController {
         return "/admin/user/update";
     }
 
-    @RequestMapping(value = "/admin/user/update/{id}", method = RequestMethod.POST)
-    public String userUpdate(Model model, @ModelAttribute("user") User newUser) {
+    @PostMapping("/admin/user/update/{id}")
+    public String userUpdate(Model model,
+            @Valid @ModelAttribute("user") User newUser,
+            BindingResult userBindingResult,
+            @RequestParam("fileImage") MultipartFile file) {
+                
+        if (userBindingResult.hasErrors()) {
+            return "admin/user/update";
+        }
+        if (file != null && file.getOriginalFilename() != null && !"".equals(file.getOriginalFilename())) {
+            String avatar = this.userService.hadleUploadImageFile(file, "avatar");
+            newUser.setAvatar(avatar);
+        }
         this.userService.userUpdate(newUser);
         return "redirect:/admin/user";
     }
@@ -67,7 +87,7 @@ public class UserController {
     // Delete
     @GetMapping("/admin/user/delete/{id}")
     public String delete(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("userId", id);
+        model.addAttribute("user", this.userService.getUserId(id));
         return "/admin/user/delete";
     }
 

@@ -22,39 +22,28 @@
                 <div id="layoutSidenav_content">
                     <main>
                         <div class="container-fluid px-4">
-                            <h1 class="mt-4"></h1>
+                            <h1 class="mt-4">Delete</h1>
+                            <div class="row d-inline">
+                                <a href="/admin">Dashboard</a>/
+                                <a href="/admin/product">Product</a>/
+                                <a href="#">Delete</a>
+                            </div>
                             </ol>
                             <div class="row">
                                 <div class="col-md-6 col-12 mx-auto">
-                                    <form:form action="/admin/user/update/${user.id}" method="POST"
-                                        modelAttribute="user">
-                                        <h3>Update User ${userId}</h3>
-                                        <div class="mb-3">
-                                            <label class="form-label">Id</label>
-                                            <form:input path="id" type="text" class="form-control" />
+                                    <form:form action="/admin/product/delete/${product.id}" method="POST"
+                                        modelAttribute="product">
+                                        <h3 class="mt-4">Delete Product ${product.name}</h3>
+                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                                aria-label="Danger:">
+                                                <use xlink:href="#exclamation-triangle-fill" />
+                                            </svg>
+                                            <div>
+                                                An user will be deleted?
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email address</label>
-                                            <form:input path="email" type="email" class="form-control" id="email" />
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="fullName" class="form-label">Full name</label>
-                                            <form:input path="fullName" type="text" class="form-control"
-                                                id="fullName" />
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="address" class="form-label">Address</label>
-                                            <form:input path="address" type="text" class="form-control" id="address" />
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="phone" class="form-label">Phone</label>
-                                            <form:input path="phone" type="text" class="form-control" id="phone" />
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-danger">Submit</button>
                                     </form:form>
 
                                 </div>
