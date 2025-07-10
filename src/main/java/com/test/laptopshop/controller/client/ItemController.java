@@ -16,11 +16,6 @@ public class ItemController {
         this.productService = productService;
     }
 
-    @GetMapping("/product")
-    public String getShopDetail() {
-        return "client/product/show";
-    }
-
     @GetMapping("/product/{id}")
     public String getProductDetail(@PathVariable("id") Long id, Model model) {
         model.addAttribute("productDetail", this.productService.getProductDetail(id));

@@ -109,7 +109,7 @@
                                                     <label for="avatar" class="form-label">Avatar</label>
                                                     <input path="avatar" class="form-control" type="file"
                                                         id="avatarFile" name="fileImage" />
-                                                    <form:input path="avatar" type="hidden"/>
+                                                    <form:input path="avatar" type="hidden" />
                                                 </div>
                                             </div>
                                             <div class="row">

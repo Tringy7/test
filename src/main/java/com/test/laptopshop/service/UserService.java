@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.test.laptopshop.domain.User;
+import com.test.laptopshop.domain.dto.UserDTO;
 import com.test.laptopshop.repository.RoleRepository;
 import com.test.laptopshop.repository.UserRepository;
 
@@ -23,7 +24,6 @@ public class UserService {
     private ServletContext servletContext;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
-
 
     public UserService(UserRepository userRepository, ServletContext servletContext, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -88,5 +88,21 @@ public class UserService {
             return "You failed to upload " + finalName + " => " + e.getMessage();
         }
         return finalName;
+    }
+
+    // Check Email exist
+    public boolean checkEmail(UserDTO user) {
+        return this.userRepository.existsByEmail(user.getEmail());
+    }
+
+    // Save account register new user
+    public void saveRegister(UserDTO userDTO) {
+        User user = User.builder()
+                .email(userDTO.getEmail())
+                .fullName(userDTO.getFirstName() + " " + userDTO.getLastName())
+                .password(this.passwordEncoder.encode(userDTO.getPassword()))
+                .role(this.roleRepository.findByName("USER"))
+                .build();
+        this.userRepository.save(user);
     }
 }
