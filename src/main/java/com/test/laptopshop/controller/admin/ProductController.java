@@ -42,12 +42,15 @@ public class ProductController {
     public String createProduct(
             @Valid @ModelAttribute("newProduct") Product newProduct,
             BindingResult productBindingResult,
-
+            @RequestParam("fileImage") MultipartFile file,
             Model model) {
         if (productBindingResult.hasErrors()) {
             return "admin/product/create";
         }
-       
+        if (file != null) {
+            String img = this.productService.hadleUploadImageFile(file, "product");
+            newProduct.setImage(img);
+        }
         this.productService.productCreate(newProduct);
         return "redirect:/admin/product";
     }

@@ -1,5 +1,6 @@
 package com.test.laptopshop.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,9 @@ public class Product {
     @DecimalMin("0.0")
     private double price;
     private String image;
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String detailDesc;
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String shortDesc;
     @Min(1)
     private long quantity;

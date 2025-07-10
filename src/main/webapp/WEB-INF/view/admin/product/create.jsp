@@ -68,14 +68,25 @@
                                         <div class="row">
                                             <div class="mb-3 col">
                                                 <label class="form-label">Detail description</label>
-                                                <form:input path="detailDesc" type="text" class="form-control" />
+                                                <div class="input-group">
+                                                    <form:textarea path="detailDesc" class="form-control"
+                                                        aria-label="With textarea" rows="5" />
+                                                </div>
                                             </div>
                                         </div>
+
 
                                         <div class="row">
                                             <div class="mb-3 col">
                                                 <label class="form-label">Short description</label>
                                                 <form:input path="shortDesc" type="text" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="mb-3 col">
+                                                <label class="form-label">Sold</label>
+                                                <form:input path="sold" type="number" class="form-control" />
                                             </div>
                                             <div class="mb-3 col">
                                                 <c:set var="nameHasBindError">
@@ -100,6 +111,7 @@
                                                     <form:option value="VIVO">VIVO</form:option>
                                                     <form:option value="RAZER">RAZER</form:option>
                                                     <form:option value="MACBOOK">MACBOOK</form:option>
+                                                    <form:option value="LENOVO">LENOVO</form:option>
                                                 </form:select>
                                             </div>
                                             <div class="mb-3 col">
