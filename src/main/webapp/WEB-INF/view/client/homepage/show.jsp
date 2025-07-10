@@ -115,38 +115,37 @@
                                                 <div class="row g-4">
                                                     <c:forEach items="${Product}" var="productList">
                                                         <div class="col-md-6 col-lg-4 col-xl-3">
-                                                            <div class="rounded position-relative fruite-item">
-                                                                <div class="fruite-img">
-                                                                    <a href="/product/${productList.id}"><img
-                                                                            src="images/product/${productList.image}"
-                                                                            class="img-fluid w-100 rounded-top"
-                                                                            alt=""></a>
-                                                                </div>
-                                                                <div
-                                                                    class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                    <a href="/product/${productList.id}">
-                                                                        <h4
-                                                                            style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-                                                                            ${productList.name}</h4>
-                                                                    </a>
-                                                                    <p>${productList.shortDesc}</p>
-                                                                    <div class="text-center">
-                                                                        <p
-                                                                            class="text-dark fs-5 fw-bold mb-2 d-inline-block">
-                                                                            <fmt:formatNumber type="number"
-                                                                                value="${productList.price}" /> đ
-                                                                        </p>
-                                                                        <br />
-                                                                        <a href="#"
-                                                                            class="btn border border-secondary rounded-pill px-3 text-primary d-inline-block">
-                                                                            <i
-                                                                                class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                                            Add to cart
-                                                                        </a>
+                                                            <a href="/product/${productList.id}">
+                                                                <div class="rounded position-relative fruite-item">
+                                                                    <div class="fruite-img">
+                                                                        <img src="images/product/${productList.image}"
+                                                                            class="img-fluid w-100 rounded-top" alt="">
                                                                     </div>
+                                                                    <div
+                                                                        class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                        <!-- <a href="/product/${productList.id}"> -->
+                                                                            <h4
+                                                                                style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; height: 57.6px;">
+                                                                                ${productList.name}</h4>
+                                                                        <p>${productList.shortDesc}</p>
+                                                                        <div class="text-center">
+                                                                            <p
+                                                                                class="text-dark fs-5 fw-bold mb-2 d-inline-block">
+                                                                                <fmt:formatNumber type="number"
+                                                                                    value="${productList.price}" /> đ
+                                                                            </p>
+                                                                            <br />
+                                                                            <a href="#"
+                                                                                class="btn border border-secondary rounded-pill px-3 text-primary d-inline-block">
+                                                                                <i
+                                                                                    class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                                Add to cart
+                                                                            </a>
+                                                                        </div>
 
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            </a>
                                                         </div>
                                                     </c:forEach>
                                                 </div>
