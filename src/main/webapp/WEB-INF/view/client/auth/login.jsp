@@ -27,6 +27,9 @@
                                         </div>
                                         <div class="card-body">
                                             <form:form action="/login" method="POST" modelAttribute="user">
+                                                <c:set var="emailError">
+                                                    <form:errors path="email" />
+                                                </c:set>
                                                 <div class="form-floating mb-3">
                                                     <form:input path="email"
                                                         class="form-control ${not empty emailError? 'is-invalid':''}"
