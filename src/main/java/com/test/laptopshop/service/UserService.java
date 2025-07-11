@@ -105,4 +105,8 @@ public class UserService {
                 .build();
         this.userRepository.save(user);
     }
+
+    public User getUserByEmail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
 }

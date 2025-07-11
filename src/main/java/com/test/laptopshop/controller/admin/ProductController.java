@@ -28,14 +28,14 @@ public class ProductController {
     @GetMapping("/admin/product")
     public String getProduct(Model model) {
         model.addAttribute("Product", this.productService.getProduct());
-        return "/admin/product/show";
+        return "admin/product/show";
     }
 
     // Create product 
     @GetMapping("/admin/product/create")
     public String showProduct(Model model) {
         model.addAttribute("newProduct", new Product());
-        return "/admin/product/create";
+        return "admin/product/create";
     }
 
     @PostMapping("/admin/product/create")
