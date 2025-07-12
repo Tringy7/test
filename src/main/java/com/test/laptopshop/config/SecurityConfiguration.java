@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 import com.test.laptopshop.service.CustomUserDetailsService;
 import com.test.laptopshop.service.UserService;
@@ -47,23 +48,33 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public SpringSessionRememberMeServices rememberMeServices() {
+        SpringSessionRememberMeServices rememberMeServices =
+            new SpringSessionRememberMeServices();
+
+        rememberMeServices.setAlwaysRemember(true);
+        return rememberMeServices;
+    }
+
+    @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                .dispatcherTypeMatchers(DispatcherType.FORWARD,
+                    .dispatcherTypeMatchers(DispatcherType.FORWARD,
                         DispatcherType.INCLUDE).permitAll()
-                .requestMatchers("/homepage", "/product/**", "/login", "/client/**", "/css/**", "/js/**",
+                    .requestMatchers("/homepage", "/product/**", "/login", "/client/**", "/css/**", "/js/**",
                         "/images/**").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated())
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
+                    .anyRequest().authenticated())
+                
+                .rememberMe(re -> re.rememberMeServices(rememberMeServices()))
+
                 .formLogin(formLogin -> formLogin
-                .loginPage("/login")
-                .successHandler(customAuthenticationSuccessHandler())
-                .failureUrl("/login?error")
-                .permitAll())
-                .exceptionHandling(ex -> ex
-                .accessDeniedPage("/access-deny")
-                );
+                    .loginPage("/login")
+                    .successHandler(customAuthenticationSuccessHandler())
+                    .failureUrl("/login?error").permitAll())
+
+                .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"));
         return http.build();
     }
 }
