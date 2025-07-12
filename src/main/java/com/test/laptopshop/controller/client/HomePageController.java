@@ -12,7 +12,6 @@ import com.test.laptopshop.service.ProductService;
 import com.test.laptopshop.service.UserService;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class HomePageController {
@@ -59,15 +58,20 @@ public class HomePageController {
 
     @PostMapping("/login")
     public String saveLogin(
-        @Valid @ModelAttribute("user") UserDTO userDTO,
-        BindingResult userBindingResult
+            @Valid @ModelAttribute("user") UserDTO userDTO,
+            BindingResult userBindingResult
     ) {
 
-        if (userBindingResult.hasErrors()){
+        if (userBindingResult.hasErrors()) {
             return "client/auth/login";
         }
 
         return "redirect:/homepage";
+    }
+
+    @GetMapping("/access-deny")
+    public String showFormDeny() {
+        return "client/auth/deny";
     }
 
 }

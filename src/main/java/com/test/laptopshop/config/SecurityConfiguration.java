@@ -60,7 +60,10 @@ public class SecurityConfiguration {
                 .loginPage("/login")
                 .successHandler(customAuthenticationSuccessHandler())
                 .failureUrl("/login?error")
-                .permitAll());
+                .permitAll())
+                .exceptionHandling(ex -> ex
+                .accessDeniedPage("/access-deny")
+                );
         return http.build();
     }
 }
