@@ -46,7 +46,7 @@ public class User {
     private String address;
     private String phone;
     private String avatar;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "roleId")
     private Role role;
     @OneToMany(mappedBy = "user")

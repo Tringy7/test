@@ -26,27 +26,28 @@
                                             <h3 class="text-center font-weight-light my-4">Login</h3>
                                         </div>
                                         <div class="card-body">
-                                            <form:form action="/login" method="POST" modelAttribute="user">
-                                                <c:set var="emailError">
-                                                    <form:errors path="email" />
-                                                </c:set>
+                                            <form action="/login" method="POST">
+                                                <c:if test="${param.error != null}">
+                                                    <div class="my-2" style="color: red;">Invalid email or password.
+                                                    </div>
+                                                </c:if>
                                                 <div class="form-floating mb-3">
-                                                    <form:input path="email"
-                                                        class="form-control ${not empty emailError? 'is-invalid':''}"
-                                                        id="inputEmail" type="email" placeholder="name@example.com" />
+                                                    <input class="form-control" id="username" name="username"
+                                                        type="email" placeholder="name@example.com" />
                                                     <label for="inputEmail">Email address</label>
-                                                    <form:errors path="email" cssClass="invalid-feedback" />
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <form:input path="password" class="form-control" id="inputPassword"
-                                                        type="password" placeholder="Create a password" />
+                                                    <input class="form-control" id="inputPassword" type="password"
+                                                        name="password" placeholder="Create a password" />
                                                     <label for="inputPassword">Password</label>
                                                 </div>
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                    value="${_csrf.token}" />
                                                 <div class="mt-4 mb-0">
                                                     <div class="d-grid"><button class="btn btn-primary btn-block"
                                                             type="submit">Login</button></div>
                                                 </div>
-                                            </form:form>
+                                            </form>
                                         </div>
                                         <div class="card-footer text-center py-3">
                                             <div class="small"><a href="/register">Need an account? Sign up!</a>

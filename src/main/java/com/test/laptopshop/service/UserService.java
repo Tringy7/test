@@ -54,6 +54,7 @@ public class UserService {
             tempUser.setAddress(user.getAddress());
             tempUser.setPhone(user.getPhone());
             tempUser.setAvatar(user.getAvatar());
+            tempUser.setRole(this.roleRepository.findById(user.getRole().getId()).get());
         }
         this.userRepository.save(tempUser);
     }
