@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -18,11 +16,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public CustomUserDetailsService(UserService userService) {
         this.userService = userService;
-    }
-
-    @Transactional
-    public String handleUser(com.test.laptopshop.domain.User user) {
-        return "ROLE_" + user.getRole().getName();
     }
 
     @Override
@@ -35,6 +28,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new User(
                 user.getEmail(),
                 user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority(handleUser(user))));
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName())));
     }
 }

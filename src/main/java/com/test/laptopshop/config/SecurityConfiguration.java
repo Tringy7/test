@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,14 +44,14 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler();
     }
 
     @Bean
     public SpringSessionRememberMeServices rememberMeServices() {
-        SpringSessionRememberMeServices rememberMeServices =
-            new SpringSessionRememberMeServices();
+        SpringSessionRememberMeServices rememberMeServices
+                = new SpringSessionRememberMeServices();
 
         rememberMeServices.setAlwaysRemember(true);
         return rememberMeServices;
@@ -60,21 +61,25 @@ public class SecurityConfiguration {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                    .dispatcherTypeMatchers(DispatcherType.FORWARD,
+                .dispatcherTypeMatchers(DispatcherType.FORWARD,
                         DispatcherType.INCLUDE).permitAll()
-                    .requestMatchers("/homepage", "/product/**", "/login", "/client/**", "/css/**", "/js/**",
+                .requestMatchers("/homepage", "/product/**", "/login", "/client/**", "/css/**", "/js/**",
                         "/images/**").permitAll()
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .anyRequest().authenticated())
-                
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated())
+                .sessionManagement((sessionManagement) -> sessionManagement
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .invalidSessionUrl("/logout?expired")
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false))
+                .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
                 .rememberMe(re -> re.rememberMeServices(rememberMeServices()))
-
                 .formLogin(formLogin -> formLogin
-                    .loginPage("/login")
-                    .successHandler(customAuthenticationSuccessHandler())
-                    .failureUrl("/login?error").permitAll())
-
+                .loginPage("/login")
+                .successHandler(authenticationSuccessHandler())
+                .failureUrl("/login?error").permitAll())
                 .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"));
+
         return http.build();
     }
 }
