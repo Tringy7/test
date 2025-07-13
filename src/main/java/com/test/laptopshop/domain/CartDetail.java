@@ -4,27 +4,25 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "cartDetails")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Order {
+public class CartDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne()
-    @JoinColumn(name = "userId") 
-    private User user;
+    @JoinColumn(name = "cartId")
+    private Cart cart;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-    private List<OrderDetail>  orderDetails;
-
-    private double totalPrice;
+    @ManyToOne()
+    @JoinColumn(name = "productId")
+    private Product product;
 }

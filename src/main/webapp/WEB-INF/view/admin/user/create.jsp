@@ -43,7 +43,7 @@
                                 </ol>
                                 <div class="row">
                                     <div class="col-md-6 col-12 mx-auto">
-                                        <form:form action="/admin/user/create" method="POST" modelAttribute="user"
+                                            <form:form action="/admin/user/create" method="POST" modelAttribute="user"
                                             enctype="multipart/form-data">
                                             <h3 class="mt-4">Create User</h3>
 
