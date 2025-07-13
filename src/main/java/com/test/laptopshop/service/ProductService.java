@@ -5,28 +5,39 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.test.laptopshop.domain.Cart;
+import com.test.laptopshop.domain.CartDetail;
 import com.test.laptopshop.domain.Product;
+import com.test.laptopshop.domain.User;
 import com.test.laptopshop.repository.ProductRepository;
 
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final ServletContext servletContext;
+    private final UserService userService;
+    private final CartService cartService;
+    private final CartDetailService cartDetailService;
     @Autowired
     private ModelMapper modelMapper;
 
-    public ProductService(ProductRepository productRepository, ServletContext servletContext) {
+    public ProductService(ProductRepository productRepository, ServletContext servletContext, UserService userService, CartService cartService, CartDetailService cartDetailService) {
         this.productRepository = productRepository;
         this.servletContext = servletContext;
+        this.userService = userService;
+        this.cartService = cartService;
+        this.cartDetailService = cartDetailService;
     }
 
     public Product getProductDetail(Long id) {
@@ -73,5 +84,43 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         this.productRepository.deleteById(id);
+    }
+
+    public void handleAddProductToCart(String email, Long productId, HttpSession session) {
+        User user = this.userService.getUserByEmail(email);
+
+        // User exist
+        if (user != null) {
+            Cart cart = this.cartService.getUserByCart(user);
+            // Create new cart
+            if (cart == null) {
+                Cart newCart = new Cart();
+                newCart.setSum(0L);
+                newCart.setUser(user);
+                cart = this.cartService.saveCart(newCart);
+            }
+            // Save cart detail
+            Optional<Product> productCheck = this.productRepository.findById(productId);
+            if (productCheck.isPresent()) {
+                Product product = productCheck.get();
+                CartDetail cartDetailCheck = this.cartDetailService.findByCartandProduct(cart, product);// Cart Detail of user not exist product
+                if (cartDetailCheck == null) {
+                    CartDetail cartDetail = new CartDetail();
+                    cartDetail.setCart(cart);
+                    cartDetail.setPrice(product.getPrice());
+                    cartDetail.setProduct(product);
+                    cartDetail.setQuantity(1L);
+
+                    Long sumTemp = cart.getSum() + 1;
+                    cart.setSum(sumTemp);
+                    this.cartDetailService.saveCartDetail(cartDetail);
+                    session.setAttribute("sum", sumTemp);
+                } else {
+                    cartDetailCheck.setQuantity(cartDetailCheck.getQuantity() + 1);
+                    this.cartDetailService.saveCartDetail(cartDetailCheck);
+                }
+            }
+
+        }
     }
 }

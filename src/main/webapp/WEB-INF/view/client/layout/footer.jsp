@@ -7,8 +7,9 @@
                     <div class="row g-4">
                         <div class="col-lg-3">
                             <a href="#">
-                                <h1 class="text-primary mb-0">Fruitables</h1>
-                                <p class="text-secondary mb-0">Fresh products</p>
+                                <h1 class="text-primary mb-0">Laptopshop
+                                </h1>
+                                <p class="text-secondary mb-0">Modern products</p>
                             </a>
                         </div>
                         <div class="col-lg-6">

@@ -74,4 +74,9 @@ public class HomePageController {
         return "client/auth/deny";
     }
 
+    @GetMapping("/cart")
+    public String showCart() {
+        return "client/cart/show";
+    }
+
 }
