@@ -26,17 +26,17 @@
             } else {
                 $('.fixed-top').removeClass('shadow').css('top', 0);
             }
-        } 
+        }
     });
-    
-    
-   // Back to top button
-   $(window).scroll(function () {
-    if ($(this).scrollTop() > 300) {
-        $('.back-to-top').fadeIn('slow');
-    } else {
-        $('.back-to-top').fadeOut('slow');
-    }
+
+
+    // Back to top button
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('.back-to-top').fadeIn('slow');
+        } else {
+            $('.back-to-top').fadeOut('slow');
+        }
     });
     $('.back-to-top').click(function () {
         $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
@@ -52,27 +52,27 @@
         dots: true,
         loop: true,
         margin: 25,
-        nav : true,
-        navText : [
+        nav: true,
+        navText: [
             '<i class="bi bi-arrow-left"></i>',
             '<i class="bi bi-arrow-right"></i>'
         ],
         responsiveClass: true,
         responsive: {
-            0:{
-                items:1
+            0: {
+                items: 1
             },
-            576:{
-                items:1
+            576: {
+                items: 1
             },
-            768:{
-                items:1
+            768: {
+                items: 1
             },
-            992:{
-                items:2
+            992: {
+                items: 2
             },
-            1200:{
-                items:2
+            1200: {
+                items: 2
             }
         }
     });
@@ -86,27 +86,27 @@
         dots: true,
         loop: true,
         margin: 25,
-        nav : true,
-        navText : [
+        nav: true,
+        navText: [
             '<i class="bi bi-arrow-left"></i>',
             '<i class="bi bi-arrow-right"></i>'
         ],
         responsiveClass: true,
         responsive: {
-            0:{
-                items:1
+            0: {
+                items: 1
             },
-            576:{
-                items:1
+            576: {
+                items: 1
             },
-            768:{
-                items:2
+            768: {
+                items: 2
             },
-            992:{
-                items:3
+            992: {
+                items: 3
             },
-            1200:{
-                items:4
+            1200: {
+                items: 4
             }
         }
     });
@@ -130,22 +130,68 @@
     });
 
 
-
     // Product Quantity
     $('.quantity button').on('click', function () {
+        var change = 0;
+
         var button = $(this);
         var oldValue = button.parent().parent().find('input').val();
         if (button.hasClass('btn-plus')) {
             var newVal = parseFloat(oldValue) + 1;
+            change = 1;
         } else {
-            if (oldValue > 0) {
+            if (oldValue > 1) {
                 var newVal = parseFloat(oldValue) - 1;
+                change = -1;
             } else {
-                newVal = 0;
+                newVal = 1;
             }
         }
         button.parent().parent().find('input').val(newVal);
+
+        const input = button.parent().parent().find('input');
+        input.val(newVal);
+
+        // get price
+        const price = input.attr("cartdetail-price");
+        const id = input.attr("cartdetail-id");
+
+        const priceElement = $(`p[cartdetail-id='${id}']`);
+        if (priceElement) {
+            const newPrice = +price * newVal;
+            priceElement.text(formatCurrency(newPrice.toFixed(2)) + " đ");
+        }
+
+        // update total price
+        const totalPriceElement = $(`p[cartdetail-totalPrice]`);
+
+        if (totalPriceElement && totalPriceElement.length) {
+            const totalPrice = totalPriceElement.first().attr("cartdetail-totalPrice");
+            let newTotal = +totalPrice;
+            if (change === 0) {
+                newTotal = +totalPrice;
+            } else {
+                newTotal = +price * change + +totalPrice;
+            }
+            change = 0;
+
+            //update
+            totalPriceElement?.each(function (index,elemnt) {
+                $(totalPriceElement[index]).text(formatCurrency(newTotal.toFixed(2)) + " đ");
+                $(totalPriceElement[index]).attr("cartdetail-totalPrice", newTotal);
+            })
+        }
     });
+
+    function formatCurrency(value) {
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'decimal',
+            minimumFractionDigits: 0
+        });
+        let formatted = formatter.format(value);
+        formatted = formatted.replace(/\./g, ',');
+        return formatted
+    }
 
 })(jQuery);
 

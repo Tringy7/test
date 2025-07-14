@@ -73,10 +73,4 @@ public class HomePageController {
     public String showFormDeny() {
         return "client/auth/deny";
     }
-
-    @GetMapping("/cart")
-    public String showCart() {
-        return "client/cart/show";
-    }
-
 }
