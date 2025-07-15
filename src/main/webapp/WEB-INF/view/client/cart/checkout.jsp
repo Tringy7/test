@@ -175,10 +175,6 @@
                             <p class="mb-0 pe-4" cartdetail-totalPrice="${totalPrice}">
                                 <fmt:formatNumber type="number" value="${totalPrice}"/> đ
                             </p>
-<%--                            <input type="hidden"--%>
-<%--                                   id="totalPriceTemp"--%>
-<%--                                   name="totalPriceTemp"--%>
-<%--                                   />--%>
                         </div>
                         <button
                                 class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"

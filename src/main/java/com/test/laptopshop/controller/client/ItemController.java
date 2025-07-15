@@ -116,6 +116,11 @@ public class ItemController {
         User user = this.userService.getUserByEmail(email);
         this.productService.handleOrder(receiverName, receiverAddress, receiverPhone, user, session);
 
-        return "redirect:/homepage";
+        return "redirect:/checkout/success";
+    }
+
+    @GetMapping("/checkout/success")
+    public String checkoutSuccess() {
+        return "client/cart/success";
     }
 }
