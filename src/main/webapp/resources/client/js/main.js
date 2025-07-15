@@ -152,9 +152,14 @@
         const input = button.parent().parent().find('input');
         input.val(newVal);
 
+        //set form index
+        const index = input.attr('cartdeatil-status-id');
+        const el = document.getElementById(`cartDetails${index}.quantity`)
+        $(el).val(newVal);
+
         // get price
-        const price = input.attr("cartdetail-price");
-        const id = input.attr("cartdetail-id");
+        const price = input.attr('cartdetail-price');
+        const id = input.attr('cartdetail-id');
 
         const priceElement = $(`p[cartdetail-id='${id}']`);
         if (priceElement) {
@@ -174,6 +179,8 @@
                 newTotal = +price * change + +totalPrice;
             }
             change = 0;
+
+            $('#totalPriceTemp').val(newTotal);
 
             //update
             totalPriceElement?.each(function (index,elemnt) {

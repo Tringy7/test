@@ -2,6 +2,7 @@ package com.test.laptopshop.domain;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +33,6 @@ public class Cart {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<CartDetail> cartDetails;
 }

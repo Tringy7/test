@@ -6,9 +6,8 @@ import com.test.laptopshop.domain.Cart;
 import com.test.laptopshop.domain.CartDetail;
 import com.test.laptopshop.domain.Product;
 
-import java.util.List;
-
 public interface CartDetailRepository extends JpaRepository<CartDetail, Long> {
 
     CartDetail findByCartAndProduct(Cart cart, Product product);
+
 }

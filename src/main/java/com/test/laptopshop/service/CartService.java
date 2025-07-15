@@ -6,6 +6,8 @@ import com.test.laptopshop.domain.Cart;
 import com.test.laptopshop.domain.User;
 import com.test.laptopshop.repository.CartRepository;
 
+import java.util.Optional;
+
 @Service
 public class CartService {
 
@@ -21,5 +23,13 @@ public class CartService {
 
     public Cart saveCart(Cart cart) {
         return this.cartRepository.save(cart);
+    }
+
+    public void deleteCart(Long id) {
+        this.cartRepository.deleteById(id);
+    }
+
+    public Optional<Cart> findById(Long id) {
+        return this.cartRepository.findById(id);
     }
 }

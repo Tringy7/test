@@ -26,5 +26,10 @@ public class Order {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     private List<OrderDetail>  orderDetails;
 
+    private String receiverName;
+    private String receiverAddress;
+    private String receiverPhone;
+    private String status;
+
     private double totalPrice;
 }
