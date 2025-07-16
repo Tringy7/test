@@ -3,15 +3,20 @@ package com.test.laptopshop.controller.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.test.laptopshop.domain.Cart;
-import com.test.laptopshop.domain.User;
-import com.test.laptopshop.service.CartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.test.laptopshop.domain.Cart;
 import com.test.laptopshop.domain.CartDetail;
+import com.test.laptopshop.domain.User;
 import com.test.laptopshop.service.CartDetailService;
+import com.test.laptopshop.service.CartService;
+import com.test.laptopshop.service.OrderService;
 import com.test.laptopshop.service.ProductService;
 import com.test.laptopshop.service.UserService;
 
@@ -25,18 +30,31 @@ public class ItemController {
     private final ProductService productService;
     private final UserService userService;
     private final CartService cartService;
+    private final OrderService orderService;
 
-    public ItemController(ProductService productService, UserService userService, CartDetailService cartDetailService, CartService cartService) {
+    public ItemController(ProductService productService, UserService userService, CartDetailService cartDetailService, CartService cartService, OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.cartDetailService = cartDetailService;
         this.cartService = cartService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/product/{id}")
     public String getProductDetail(@PathVariable("id") Long id, Model model) {
         model.addAttribute("productDetail", this.productService.getProductDetail(id));
         return "client/product/show";
+    }
+
+    @PostMapping("/product/view/{id}")
+    public String addProductToCartFromDetail(@PathVariable("id") Long id,
+            Model model,
+            HttpServletRequest request,
+            @RequestParam("quantity") Long quantity) {
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("email");
+        this.productService.handleAddProductToCart(email, id, session, quantity);
+        return "redirect:/cart";
     }
 
     @PostMapping("/product/{id}")
@@ -46,8 +64,8 @@ public class ItemController {
             HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("email");
-        this.productService.handleAddProductToCart(email, id, session);
-        return "redirect:/homepage";
+        this.productService.handleAddProductToCart(email, id, session, 1L);
+        return "redirect:/cart";
     }
 
     @GetMapping("/cart")
@@ -108,9 +126,9 @@ public class ItemController {
 
     @PostMapping("/checkout")
     public String checkout(
-            @RequestParam("receiverName") String receiverName
-            , @RequestParam("receiverAddress") String receiverAddress
-            , @RequestParam("receiverPhone") String receiverPhone, HttpServletRequest request) {
+            @RequestParam("receiverName") String receiverName,
+            @RequestParam("receiverAddress") String receiverAddress,
+            @RequestParam("receiverPhone") String receiverPhone, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("email");
         User user = this.userService.getUserByEmail(email);
@@ -123,4 +141,14 @@ public class ItemController {
     public String checkoutSuccess() {
         return "client/cart/success";
     }
+
+    @GetMapping("/order-history")
+    public String showOrderHistory(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("email");
+        User user = this.userService.getUserByEmail(email);
+        model.addAttribute("order", this.orderService.getOrder(user));
+        return "client/cart/history";
+    }
+
 }

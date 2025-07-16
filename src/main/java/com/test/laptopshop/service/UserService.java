@@ -42,6 +42,10 @@ public class UserService {
         this.userRepository.save(user);
     }
 
+    public Long getCount() {
+        return this.userRepository.count();
+    }
+
     public User getUserDetail(Long id) {
         return this.userRepository.findById(id).get();
     }

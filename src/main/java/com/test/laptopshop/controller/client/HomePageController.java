@@ -13,6 +13,7 @@ import com.test.laptopshop.service.UserService;
 
 import jakarta.validation.Valid;
 
+
 @Controller
 public class HomePageController {
 

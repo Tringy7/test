@@ -4,25 +4,27 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.test.laptopshop.domain.*;
-import com.test.laptopshop.repository.OrderDetailRepository;
-import com.test.laptopshop.repository.OrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.test.laptopshop.domain.Cart;
+import com.test.laptopshop.domain.CartDetail;
+import com.test.laptopshop.domain.Order;
+import com.test.laptopshop.domain.OrderDetail;
+import com.test.laptopshop.domain.Product;
+import com.test.laptopshop.domain.User;
+import com.test.laptopshop.repository.OrderDetailRepository;
+import com.test.laptopshop.repository.OrderRepository;
 import com.test.laptopshop.repository.ProductRepository;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-
-import javax.swing.text.html.Option;
 
 @Service
 public class ProductService {
@@ -46,6 +48,10 @@ public class ProductService {
         this.cartDetailService = cartDetailService;
         this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
+    }
+
+    public Long getCount() {
+        return this.productRepository.count();
     }
 
     public Product getProductDetail(Long id) {
@@ -94,7 +100,7 @@ public class ProductService {
         this.productRepository.deleteById(id);
     }
 
-    public void handleAddProductToCart(String email, Long productId, HttpSession session) {
+    public void handleAddProductToCart(String email, Long productId, HttpSession session, Long quantity) {
         User user = this.userService.getUserByEmail(email);
 
         // User exist
@@ -117,14 +123,14 @@ public class ProductService {
                     cartDetail.setCart(cart);
                     cartDetail.setPrice(product.getPrice());
                     cartDetail.setProduct(product);
-                    cartDetail.setQuantity(1L);
+                    cartDetail.setQuantity(quantity);
 
                     Long sumTemp = cart.getSum() + 1;
                     cart.setSum(sumTemp);
                     this.cartDetailService.saveCartDetail(cartDetail);
                     session.setAttribute("sum", sumTemp);
                 } else {
-                    cartDetailCheck.setQuantity(cartDetailCheck.getQuantity() + 1);
+                    cartDetailCheck.setQuantity(cartDetailCheck.getQuantity() + quantity);
                     this.cartDetailService.saveCartDetail(cartDetailCheck);
                 }
             }
