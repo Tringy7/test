@@ -74,6 +74,32 @@
 
                                                 </tbody>
                                             </table>
+                                            <div>
+                                                <nav aria-label="Page navigation example">
+                                                    <ul class="pagination justify-content-center">
+                                                        <li
+                                                            class="${currentPage eq 0? 'page-item disabled':'page-item'}">
+                                                        <a class="page-link" href="/admin/product?page=${currentPage-1}" aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                            </a>
+                                                        </li>
+                                                        <c:forEach begin="0" end="${totalPages}" varStatus="status">
+                                                            <li
+                                                                class="${currentPage eq status.index? 'page-item active':'page-item'}">
+                                                                <a class="page-link"
+                                                                    href="/admin/product?page=${status.index}">${status.index
+                                                                    + 1}</a>
+                                                            </li>
+                                                        </c:forEach>
+                                                        <li
+                                                            class="${currentPage eq totalPages? 'page-item disabled':'page-item'}">
+                                                            <a class="page-link" href="/admin/product?page=${currentPage+1}" aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

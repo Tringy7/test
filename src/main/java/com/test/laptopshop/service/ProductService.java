@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -208,5 +210,9 @@ public class ProductService {
 
             session.setAttribute("sum", 0);
         }
+    }
+
+        public Page<Product> getPage(Pageable pageable) {
+        return this.productRepository.findAll(pageable);
     }
 }

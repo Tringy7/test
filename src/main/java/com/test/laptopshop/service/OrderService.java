@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.test.laptopshop.domain.Order;
@@ -61,5 +63,9 @@ public class OrderService {
 
     public List<Order> getOrder(User user) {
         return this.orderRepository.findByUser(user);
+    }
+
+    public Page<Order> fetchOrder(Pageable pageable) {
+        return this.orderRepository.findAll(pageable);
     }
 }

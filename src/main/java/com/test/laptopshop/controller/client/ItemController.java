@@ -55,7 +55,7 @@ public class ItemController {
         String email = (String) session.getAttribute("email");
         this.productService.handleAddProductToCart(email, id, session, quantity);
         return "redirect:/cart";
-    }
+    } 
 
     @PostMapping("/product/{id}")
     public String addProductToCart(
@@ -150,5 +150,4 @@ public class ItemController {
         model.addAttribute("order", this.orderService.getOrder(user));
         return "client/cart/history";
     }
-
 }

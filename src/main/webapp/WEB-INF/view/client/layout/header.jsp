@@ -15,7 +15,7 @@
                         <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                             <div class="navbar-nav mx-auto">
                                 <a href="/homepage" class="nav-item nav-link active">Home</a>
-                                <a href="/product" class="nav-item nav-link">Product Detail</a>
+                                <a href="/product" class="nav-item nav-link">Product</a>
                             </div>
                             <div class="d-flex m-3 me-0">
                                 <c:if test="${not empty pageContext.request.userPrincipal}">
