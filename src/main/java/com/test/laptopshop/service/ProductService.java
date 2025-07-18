@@ -23,6 +23,7 @@ import com.test.laptopshop.domain.User;
 import com.test.laptopshop.repository.OrderDetailRepository;
 import com.test.laptopshop.repository.OrderRepository;
 import com.test.laptopshop.repository.ProductRepository;
+import com.test.laptopshop.service.spectifiaction.ProductSpecs;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
@@ -195,7 +196,7 @@ public class ProductService {
                 orderDetail.setOrder(order);
                 orderDetail.setQuantity(it.getQuantity());
                 orderDetail.setProduct(it.getProduct());
-                total = total + it.getPrice()*it.getQuantity();
+                total = total + it.getPrice() * it.getQuantity();
                 this.orderDetailRepository.save(orderDetail);
             }
 
@@ -212,7 +213,14 @@ public class ProductService {
         }
     }
 
-        public Page<Product> getPage(Pageable pageable) {
+    public Page<Product> getPageAdmin(Pageable pageable) {
         return this.productRepository.findAll(pageable);
+    }
+
+    // public Page<Product> getPage(Pageable pageable, String name) {
+    //     return this.productRepository.findAll(ProductSpecs.productNameLike(name), pageable);
+    // }
+    public Page<Product> getPage(Pageable pageable, String name) {
+        return this.productRepository.findAll(ProductSpecs.productNameLike(name), pageable);
     }
 }

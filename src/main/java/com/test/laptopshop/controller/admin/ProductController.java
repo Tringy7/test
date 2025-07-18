@@ -41,7 +41,7 @@ public class ProductController {
         } catch (Exception e) {
         }
         Pageable pageable = PageRequest.of(page, 1);
-        Page<Product> ps = this.productService.getPage(pageable);
+        Page<Product> ps = this.productService.getPageAdmin(pageable);
         List<Product> prodList = ps.getContent();
         model.addAttribute("Product", prodList);
         model.addAttribute("currentPage", page);
@@ -65,7 +65,7 @@ public class ProductController {
         if (productBindingResult.hasErrors()) {
             return "admin/product/create";
         }
-        if (file != null) {
+        if (file != null && !file.getOriginalFilename().equals("")) {
             String img = this.productService.hadleUploadImageFile(file, "product");
             newProduct.setImage(img);
         }
