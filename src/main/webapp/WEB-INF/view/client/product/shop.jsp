@@ -67,82 +67,88 @@
                                         <div class="row g-4">
                                             <div class="col-lg-4 text-start">
                                                 <div class="col-lg-12">
-                                                    <div class="mb-3">
+                                                    <div class="mb-3" id="CheckBrand">
                                                         <h4>Brand</h4>
                                                         <div class="mb-2 d-inline">
-                                                            <input type="checkbox" class="me-2" id="Categories-1"
-                                                                name="Categories-1" value="Beverages">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="factory-1" name="Categories-1" value="DELL">
                                                             <label for="Categories-1">DELL</label>
                                                         </div>
                                                         <div class="mb-2 d-inline">
-                                                            <input type="checkbox" class="me-2" id="Categories-1"
-                                                                name="Categories-1" value="Beverages">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="factory-2" name="Categories-1" value="ASUS">
                                                             <label for="Categories-1">ASUS</label>
                                                         </div>
                                                         <div class="mb-2 d-inline">
-                                                            <input type="checkbox" class="me-2" id="Categories-1"
-                                                                name="Categories-1" value="Beverages">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="factory-3" name="Categories-1" value="LENOVO">
                                                             <label for="Categories-1">LENOVO</label>
                                                         </div>
                                                         <div class="mb-2 d-inline">
-                                                            <input type="checkbox" class="me-2" id="Categories-1"
-                                                                name="Categories-1" value="Beverages">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="factory-4" name="Categories-1" value="MACBOOK">
                                                             <label for="Categories-1">MACBOOK</label>
                                                         </div>
                                                     </div>
-                                                    <div class="mb-3">
+                                                    <div class="mb-3" id="CheckType">
                                                         <h4>Intended use</h4>
                                                         <div class="mb-2 d-inline">
-                                                            <input type="checkbox" class="me-2" id="Categories-1"
-                                                                name="Categories-1" value="Beverages">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="target-1" name="Categories-1" value="GAMING">
                                                             <label for="Categories-1">GAMING</label>
                                                         </div>
                                                         <div class="mb-2 d-inline">
-                                                            <input type="checkbox" class="me-2" id="Categories-1"
-                                                                name="Categories-1" value="Beverages">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="target-2" name="Categories-1" value="STUDENT">
                                                             <label for="Categories-1">STUDENT</label>
                                                         </div>
                                                         <div class="mb-2 d-inline">
-                                                            <input type="checkbox" class="me-2" id="Categories-1"
-                                                                name="Categories-1" value="Beverages">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="target-3" name="Categories-1" value="WORKER">
                                                             <label for="Categories-1">WORKER</label>
                                                         </div>
                                                     </div>
-                                                    <div class="mb-3">
+                                                    <div class="mb-3" id="CheckNumber">
                                                         <h4>Cost</h4>
                                                         <div class="mb-2 d-inline">
-                                                            <input type="checkbox" class="me-2" id="Categories-1"
-                                                                name="Categories-1" value="Beverages">
-                                                            <label for="Categories-1">Under 10 </label>
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="price-1" name="Categories-1" value="duoi-10">
+                                                            <label for="Categories-1">Under 10</label>
                                                         </div>
                                                         <div class="mb-2 d-inline">
-                                                            <input type="checkbox" class="me-2" id="Categories-1"
-                                                                name="Categories-1" value="Beverages">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="price-2" name="Categories-1" value="10-toi-20">
                                                             <label for="Categories-1">From 10 to 20</label>
                                                         </div>
                                                         <div class="mb-2 d-inline">
-                                                            <input type="checkbox" class="me-2" id="Categories-1"
-                                                                name="Categories-1" value="Beverages">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="price-3" name="Categories-1" value="20-toi-30">
                                                             <label for="Categories-1">From 20 to 30</label>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <h4>Sort</h4>
-                                                    <div class="mb-2 d-inline">
-                                                        <input type="radio" class="me-2" id="Categories-1"
-                                                            name="Categories-1" value="Beverages">
-                                                        <label for="Categories-1">Ascending</label>
+                                                    <div class="mb-3" id="CheckSort">
+                                                        <h4>Sort</h4>
+                                                        <div class="mb-2 d-inline">
+                                                            <input type="radio" class="form-check-input" id="sort-1"
+                                                                   name="radio-sort" value="tang-dan">
+                                                            <label for="Categories-1">Ascending</label>
+                                                        </div>
+                                                        <div class="mb-2 d-inline">
+                                                            <input type="radio" class="form-check-input" id="sort-2"
+                                                                   name="radio-sort" value="giam-dan">
+                                                            <label for="radio-sort">Descending</label>
+                                                        </div>
+                                                        <div class="mb-2 d-inline">
+                                                            <input type="radio" class="form-check-input" id="sort-3"
+                                                                   name="radio-sort" value="khong-tang" checked>
+                                                            <label for="Categories-1">None</label>
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-2 d-inline">
-                                                        <input type="radio" class="me-2" id="Categories-1"
-                                                            name="Categories-1" value="Beverages">
-                                                        <label for="Categories-1">Descending</label>
-                                                    </div>
+                                                    <button
+                                                            class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
+                                                            id="Check_btn" type="submit"><i
+                                                            class="fa fa-shopping-bag form-check-input text-primary"></i>Check</button>
                                                 </div>
-                                                <button
-                                                    class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
-                                                        class="fa fa-shopping-bag me-2 text-primary"></i>Check</button>
                                             </div>
                                             <div class="col-lg-8">
                                                 <div class="row g-4">
@@ -175,7 +181,7 @@
                                                                                 <button href="#"
                                                                                     class="btn border border-secondary rounded-pill px-3 text-primary d-inline-block">
                                                                                     <i
-                                                                                        class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                                        class="fa fa-shopping-bag form-check-input text-primary"></i>
                                                                                     Add to cart
                                                                                 </button>
                                                                             </form>
@@ -187,24 +193,34 @@
                                                         </div>
                                                     </c:forEach>
                                                     <div class="pagination d-flex justify-content-center mt-5">
+
+                                                        <c:if test="${totalPages > 0}">
                                                         <li
                                                             class="${currentPage eq 0? 'page-item disabled':'page-item'}">
-                                                            <a href="/product?page=${currentPage-1}"
+                                                            <a href="/product?page=${currentPage-1}${queryString}"
                                                                 class="page-link">«</a>
                                                         </li>
-                                                        <c:forEach begin="0" end="${totalPages}" varStatus="status">
-                                                            <li
-                                                                class="${currentPage eq status.index? 'page-item active':'page-item'}">
-                                                                <a class="page-link"
-                                                                    href="/product?page=${status.index}">${status.index
-                                                                    + 1}</a>
-                                                            </li>
-                                                        </c:forEach>
+
+                                                            <c:forEach begin="0" end="${totalPages}" varStatus="status">
+                                                                <li
+                                                                        class="${currentPage eq status.index? 'page-item active':'page-item'}">
+                                                                    <a class="page-link"
+                                                                       href="/product?page=${status.index}${queryString}">${status.index
+                                                                            + 1}</a>
+                                                                </li>
+                                                            </c:forEach>
+
+
                                                         <li
                                                             class="${currentPage eq totalPages? 'page-item disabled':'page-item'}">
-                                                            <a href="/product?page=${currentPage+1}"
+                                                            <a href="/product?page=${currentPage+1}${queryString}"
                                                                 class="page-link">»</a>
                                                         </li>
+                                                        </c:if>
+
+                                                        <c:if test="${totalPages < 0}">
+                                                            <div>Không có sản phẩm</div>
+                                                        </c:if>
                                                     </div>
                                                 </div>
                                             </div>

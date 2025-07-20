@@ -7,19 +7,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import com.test.laptopshop.domain.*;
+import com.test.laptopshop.domain.dto.ProductCriteriaDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.test.laptopshop.domain.Cart;
-import com.test.laptopshop.domain.CartDetail;
-import com.test.laptopshop.domain.Order;
-import com.test.laptopshop.domain.OrderDetail;
-import com.test.laptopshop.domain.Product;
-import com.test.laptopshop.domain.User;
 import com.test.laptopshop.repository.OrderDetailRepository;
 import com.test.laptopshop.repository.OrderRepository;
 import com.test.laptopshop.repository.ProductRepository;
@@ -216,11 +213,57 @@ public class ProductService {
     public Page<Product> getPageAdmin(Pageable pageable) {
         return this.productRepository.findAll(pageable);
     }
-
     // public Page<Product> getPage(Pageable pageable, String name) {
     //     return this.productRepository.findAll(ProductSpecs.productNameLike(name), pageable);
     // }
-    public Page<Product> getPage(Pageable pageable, String name) {
-        return this.productRepository.findAll(ProductSpecs.productNameLike(name), pageable);
+
+    // case check Number trong khoang
+    public Specification<Product> productSpecification(List<String> price) {
+        Specification<Product> combineSpec = (root, query, criteriaBuilder) -> criteriaBuilder.disjunction();
+        for (String p : price) {
+            double min = -1;
+            double max = 0;
+            switch (p) {
+                case "duoi-10":
+                    max = 10000000;
+                    min = 0;
+                    break;
+                case "10-toi-20":
+                    max = 20000000;
+                    min = 10000000;
+                    break;
+                case "20-toi-30":
+                    max = 30000000;
+                    min = 20000000;
+                    break;
+            }
+            if (min != -1 && max != 0) {
+                Specification<Product> check = ProductSpecs.productChecPrice(min, max);
+                combineSpec = combineSpec.or(check);
+            }
+        }
+        return combineSpec;
+    }
+
+    public Page<Product> getPage(Pageable pageable, ProductCriteriaDTO productCriteriaDTO) {
+
+        if (productCriteriaDTO.getFactory() == null
+                && productCriteriaDTO.getTarget() == null
+                && productCriteriaDTO.getPrice() == null) {
+            return this.productRepository.findAll(pageable);
+        }
+
+        Specification<Product> combineSpec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();;
+        if (productCriteriaDTO.getFactory()!=null &&  productCriteriaDTO.getFactory().isPresent() ) {
+            combineSpec = combineSpec.and(ProductSpecs.productCheckFactory(productCriteriaDTO.getFactory().get()));
+        }
+        if (productCriteriaDTO.getTarget()!=null && productCriteriaDTO.getTarget().isPresent()) {
+            combineSpec = combineSpec.and(ProductSpecs.productChecTarget(productCriteriaDTO.getTarget().get()));
+        }
+        if  (productCriteriaDTO.getPrice() != null && productCriteriaDTO.getPrice().isPresent()) {
+            combineSpec = combineSpec.and(productSpecification(productCriteriaDTO.getPrice().get()));
+        }
+        return this.productRepository.findAll(combineSpec, pageable);
     }
 }
+

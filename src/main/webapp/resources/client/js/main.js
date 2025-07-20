@@ -127,6 +127,38 @@
         $('#videoModal').on('hide.bs.modal', function (e) {
             $("#video").attr('src', $videoSrc);
         })
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Check các checkbox theo 'factory'
+        const factories = urlParams.get('factory');
+        if (factories) {
+            factories.split(',').forEach(val => {
+                $(`#CheckBrand input[value="${val}"]`).prop('checked', true);
+            });
+        }
+
+        // Check các checkbox theo 'target'
+        const targets = urlParams.get('target');
+        if (targets) {
+            targets.split(',').forEach(val => {
+                $(`#CheckType input[value="${val}"]`).prop('checked', true);
+            });
+        }
+
+        // Check các checkbox theo 'price'
+        const prices = urlParams.get('price');
+        if (prices) {
+            prices.split(',').forEach(val => {
+                $(`#CheckNumber input[value="${val}"]`).prop('checked', true);
+            });
+        }
+
+        // Check radio button theo 'sort'
+        const sortValue = urlParams.get('sort');
+        if (sortValue) {
+            $(`#CheckSort input[name="radio-sort"][value="${sortValue}"]`).prop('checked', true);
+        }
     });
 
 
@@ -199,6 +231,52 @@
         formatted = formatted.replace(/\./g, ',');
         return formatted
     }
+
+    $("#Check_btn").click(function(e){
+        e.preventDefault();
+        var brand = [];
+        var type = [];
+        var number = [];
+        
+        $('#CheckBrand .form-check-input:checked').each(function() {
+            brand.push($(this).val());
+        })
+
+        $('#CheckType .form-check-input:checked').each(function() {
+            type.push($(this).val());
+        })
+
+        $('#CheckNumber .form-check-input:checked').each(function() {
+            number.push($(this).val());
+        })
+
+        let sortValue = $("input[name=radio-sort]:checked").val();
+
+        const currentUrl = new URL(window.location.href);
+        const searchParam = currentUrl.searchParams;
+
+        searchParam.set('page', '0');
+        searchParam.set('sort', sortValue);
+
+        searchParam.delete('factory');
+        searchParam.delete('target');
+        searchParam.delete('price');
+
+
+        if (brand.length > 0) {
+            searchParam.set('factory', brand.join(','));
+        }
+
+        if (type.length > 0) {
+            searchParam.set('target', type.join(','));
+        }
+      
+        if (number.length > 0) {
+            searchParam.set('price', number.join(','));
+        }
+
+        window.location.href = currentUrl;
+    })
 
 })(jQuery);
 
